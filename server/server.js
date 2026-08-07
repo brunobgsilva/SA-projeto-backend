@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const db = require('./models');
 const authController = require('./controllers/authController');
 const postController = require('./controllers/postController');
+const vagaController = require('./controllers/vagaController')
 const { autenticar, somenteAdmin } = require('./middleware/auth');
 
 dotenv.config(); // Carrega o .env

@@ -1,5 +1,5 @@
 
-export default (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
     const Vaga = sequelize.define('Vaga', {
         Titulo: {
             type: DataTypes.STRING,

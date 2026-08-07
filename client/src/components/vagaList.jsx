@@ -1,7 +1,7 @@
 import VagaCard from './vagaCard.jsx';
 import axios from 'axios';
 
-const vagasData = await axios.get('http://localhost:4545/vagas');
+const vagasData = await axios.get('http://localhost:5000/vagas');
 console.log("vagas",vagasData)
 function VagaList() {
     return (

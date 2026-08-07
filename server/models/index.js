@@ -18,5 +18,6 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.User = require('./User')(sequelize, Sequelize);
 db.Post = require('./Post')(sequelize, Sequelize);
+db.Vaga = require('./Vaga')(sequelize, Sequelize);
 
 module.exports = db;
