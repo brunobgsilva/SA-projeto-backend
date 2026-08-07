@@ -1,19 +1,41 @@
-import express from 'express';
-import db from './models/index.js';
-import * as vagaController from './controllers/vagaController.js';
-import cors from 'cors';
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const db = require('./models');
+const authController = require('./controllers/authController');
+const postController = require('./controllers/postController');
+const { autenticar, somenteAdmin } = require('./middleware/auth');
+
+dotenv.config(); // Carrega o .env
 const app = express();
-const PORT = 4545;
+app.use(express.json()); // Permite leitura de JSON
+app.use(cors()); // Permite cross plataform para utilizar o client e server em localhost
+// Rota pública: criar novo usuário
+app.post('/registrar', authController.registrar);
 
-app.use(express.json());
-app.use(cors());
+// Rota pública: login e geração do token
+app.post('/login', authController.login);
 
+app.post('/posts', postController.criarPost);
+
+app.get('/posts', postController.listarPosts);
+
+app.get('/posts/:id', postController.listarPostPorId);
+
+//listar vagas
 app.get('/vagas', vagaController.listAll);
 
-db.sequelize.sync()
-    .then(() => {
-        app.listen(PORT, () => {
-            console.log(`Server rodando na porta ${PORT}`)
-        });
-    })
-    .catch(err => console.log('ERROR: ' + err));
+// Rota protegida: acessível para qualquer usuário autenticado
+app.get('/painel', autenticar, (req, res) => {
+  res.send(`Olá, ${req.usuario.nome}. Seu cargo é: ${req.usuario.cargo}`);
+});
+
+// Rota protegida: acessível apenas a admins
+app.get('/admin', autenticar, somenteAdmin, (req, res) => {
+  res.send("Bem-vindo à área administrativa da clínica.");
+});
+
+// Sincroniza os modelos com o banco e inicia o servidor
+db.sequelize.sync().then(() => {
+  app.listen(5000, () => console.log("Servidor da clínica rodando na porta 5000"));
+});

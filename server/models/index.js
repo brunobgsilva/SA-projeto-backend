@@ -1,9 +1,7 @@
-import { Sequelize } from "sequelize";
-import dotenv from 'dotenv';
-import createVagaModel from '../models/vagaModel.js';
+const { Sequelize } = require('sequelize');
+require('dotenv').config(); // Carrega variáveis do .env
 
-dotenv.config();
-
+// Cria conexão com o PostgreSQL usando Sequelize
 const sequelize = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USER,
@@ -14,11 +12,11 @@ const sequelize = new Sequelize(
   }
 );
 
+// Exporta a instância do banco e os modelos
 const db = {};
-
-db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+db.User = require('./User')(sequelize, Sequelize);
+db.Post = require('./Post')(sequelize, Sequelize);
 
-db.Vaga = createVagaModel(sequelize, Sequelize);
-
-export default db;
+module.exports = db;
