@@ -5,10 +5,10 @@ const jwt = require('jsonwebtoken');
 // Rota de registro de novo usuário
 exports.registrar = async (req, res) => {
   try {
-    const { nome, email, senha } = req.body;
+    const { idade, nome, email, senha, cargo } = req.body;
 
     // Cria e salva o usuário no banco
-    const novoUsuario = await User.create({ nome, email, senha });
+    const novoUsuario = await User.create({ idade, nome, email, senha, cargo});
 
     res.status(201).json({
       mensagem: 'Usuário criado com sucesso',

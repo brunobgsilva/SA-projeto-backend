@@ -6,12 +6,14 @@ function Registrar() {
     const [idade, setIdade] = useState(0);
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
+    const [cargo, setCargo] = useState('');
+
     const manipularNome = (e) => { //nameHandler
         setNome(e.target.value);
         console.log(nome)
     };
     const manipularIdade = (e) => { //nameHandler
-        setIdade(e.target.value);
+        setIdade(Number(e.target.value));
         console.log(idade)
     };
     const manipularEmail = (e) => { //nameHandler
@@ -22,14 +24,20 @@ function Registrar() {
         setSenha(e.target.value);
         console.log(senha)
     };
+    const manipularCargo = (e) => { //nameHandler
+        setCargo(e.target.value);
+        console.log(cargo)
+    };
 
     const manipularBotao = async () => {
         try {
             const response = await
                 axios.post('http://localhost:5000/registrar', {
-                    nome: nome,
-                    email: email,
-                    senha: senha,
+                    idade,
+                    nome,
+                    email,
+                    senha,
+                    cargo
                 }, {
                 })
         }
@@ -39,12 +47,19 @@ function Registrar() {
             <form className="formRegistro">Registrar novo usuário
                 <label className="labelRegistro">Nome</label>
                 <input className="inputRegistro" onChange={manipularNome}></input>
+
                 <label className="labelRegistro">Idade</label>
                 <input className="inputRegistro" onChange={manipularIdade}></input>
+
                 <label className="labelRegistro" >E-mail</label>
                 <input className="inputRegistro" onChange={manipularEmail}></input>
+
                 <label className="labelRegistro">Senha</label>
                 <input className="inputRegistro" onChange={manipularSenha}></input>
+
+                <label className="labelRegistro">Cargo</label>
+                <input className="inputRegistro" onChange={manipularCargo}></input>
+
                 <button className="buttonRegistro" onClick={manipularBotao} > Enviar </button>
             </form>
         )
