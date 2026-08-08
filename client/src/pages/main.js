@@ -12,19 +12,23 @@ function HomePage() {
   const [showPopUp, setShowPopUp] = useState(false);  
   const token = localStorage.getItem('jwtToken'); //
   const [user, setUser] = useState('');
-  const [fakeToken, setFakeToken] = useState(false);
 
   const manipularLoginButton = (e) =>{
-   setShowPopUp(true)
-   setFakeToken(true)
+    setShowPopUp(true)
   }
 
 return (
   <div className="grid-container">
     <header className="header">
-        <MyHeader logedin={fakeToken}
-          logout={() => setFakeToken(false)}
-          login={manipularLoginButton}></MyHeader>
+        <MyHeader 
+          logedin={token}
+          logout={() => {
+            localStorage.removeItem('jwtToken');
+            setLoginLabel("Login");
+            window.location.reload();
+          }}
+          login={manipularLoginButton}>
+        </MyHeader>
 
     {/* <Link to='/registrar'>Cadastrar</Link>
     <button className="logButton" onClick={() => {setShowPopUp(true)} } >{loginLabel}</button> */}
@@ -38,10 +42,10 @@ return (
               
       </PopUp>
 
-      <TextBox logedin={fakeToken}></TextBox>
+      <TextBox logedin={token}></TextBox>
 
-      <PostBox logedin={fakeToken} title="JUJUBA" text={user}></PostBox>
-      <PostBox logedin={fakeToken} title="Frutas" text="prefiro chocolate"></PostBox>
+      <PostBox logedin={token} title="JUJUBA" text={user}></PostBox>
+      <PostBox logedin={token} title="Frutas" text="prefiro chocolate"></PostBox>
 
       <div className="post">Post 3</div>
       <div className="post">Post 4</div>
